@@ -26,18 +26,19 @@ model:
 data:
   target: main.DataModuleFromConfig
   params:
-    batch_size: 12
+    num_workers: 8
+    batch_size: 4
     wrap: True
     train:
-      target: ldm.data.imagenet.ImageNetSRTrain
+      target: ldm.data.local.LocalTrain
       params:
         size: 256
-        degradation: pil_nearest
+        # degradation: pil_nearest
     validation:
-      target: ldm.data.imagenet.ImageNetSRValidation
+      target: ldm.data.local.LocalValidation
       params:
         size: 256
-        degradation: pil_nearest
+        # degradation: pil_nearest
 
 lightning:
   callbacks:
@@ -49,5 +50,6 @@ lightning:
         increase_log_steps: True
 
   trainer:
+    max_steps: 85000
     benchmark: True
     accumulate_grad_batches: 2
